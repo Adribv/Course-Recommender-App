@@ -43,7 +43,7 @@ const ProfileSetup = () => {
       });
 
       // Call the backend API to generate recommendations
-      const response = await fetch(`http://localhost:5000/recommend?user_id=${user.uid}`);
+      const response = await fetch(`https://course-backend-1.onrender.com/recommend?user_id=${user.uid}`);
       if (!response.ok) {
         throw new Error('Failed to generate recommendations');
       }
