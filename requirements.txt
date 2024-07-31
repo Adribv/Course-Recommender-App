@@ -1,7 +1,8 @@
 Flask==2.0.2
 Flask-Cors==3.0.10
 firebase-admin==6.1.0
-pandas==2.1.0
+pandas==1.5.3
+numpy==1.23.5
 python-dotenv==1.0.0
 scikit-learn==1.2.2
 werkzeug==2.0.2
