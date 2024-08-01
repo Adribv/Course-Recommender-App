@@ -9,7 +9,6 @@ This is a web-based application designed to recommend courses to users based on 
 - Features
 - Installation
 - Usage
-- Project Structure
 - Model
 - Benchmarking
   
@@ -79,17 +78,6 @@ This is a web-based application designed to recommend courses to users based on 
 - **GET /recommend**: Fetches course recommendations.
 - **POST /predict**: Sends user data and receives predictions.
 
-## Project Structure
-bash
-Course-Recommender-App/
-├── app.py              # Main application file
-├── model.pkl           # Pre-trained machine learning model
-├── requirements.txt    # Python dependencies
-├── static/             # Static files (CSS, JS)
-├── templates/          # HTML templates
-├── frontend/           # React frontend
-├── data/               # Dataset for training and testing
-└── README.md           # Project documentation
 
 
 ## Model
@@ -97,14 +85,12 @@ Course-Recommender-App/
 ### Training
 - The model was trained using a dataset of courses and user interactions.
 - The data was preprocessed and fed into a machine learning algorithm (e.g., RandomForest, SVM).
-- The trained model was serialized into a `.pkl` file for deployment.
 
-### Loading and Predicting
-- The application loads the model from the `.pkl` file and uses it to make real-time predictions based on user input.
+
+
 
 ## Benchmarking
 ### Model Performance
-- **Load Time**: The time it takes to load the model from the `.pkl` file.
 - **Prediction Time**: The time it takes to generate predictions.
 
 ### API Performance
