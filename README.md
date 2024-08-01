@@ -1,70 +1,121 @@
-# Getting Started with Create React App
+---
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+# Course Recommender App
 
-In the project directory, you can run:
+This is a web-based application designed to recommend courses to users based on their preferences or interests. The application uses a machine learning model to provide personalized course suggestions.
 
-### `npm start`
+## Table of Contents
+- Features
+- Installation
+- Usage
+- Project Structure
+- Model
+- Benchmarking
+  
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Features
+- Personalized course recommendations based on user input.
+- Web-based interface for ease of use.
+- Responsive design for use on multiple devices.
+- Integration with backend services for data processing and model predictions.
 
-### `npm test`
+## Installation
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Prerequisites
+- Python 3.7+
+- Pipenv or Virtualenv for dependency management
+- Node.js and npm (for frontend development)
 
-### `npm run build`
+### Steps
+1. **Clone the Repository:**
+  ```
+   bash
+   git clone https://github.com/Adribv/Course-Recommender-App.git
+   cd Course-Recommender-App
+   ```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+3. **Set Up Virtual Environment:**
+   ```
+   bash
+   pipenv install --dev
+   pipenv shell
+   ```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+4. **Install Dependencies:**
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+   ```
+   bash
+   pip install -r requirements.txt
+   ```
 
-### `npm run eject`
+6. **Set Up Frontend:**
+   Navigate to the `frontend` directory and install dependencies.
+   ```
+   bash
+   cd frontend
+   npm install
+   npm run build
+   ```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+7. **Run the Application:**
+   Back in the root directory, start the server.
+   ```
+   bash
+   gunicorn --bind 0.0.0.0:8000 app:app
+   ```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+8. **Access the Application:**
+   Open your web browser and navigate to `http://localhost:8000`.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## Usage
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### Interacting with the Application
+- The main page will allow you to enter your preferences or interests.
+- Based on the input, the application will recommend a list of relevant courses.
 
-## Learn More
+### API Endpoints
+- **GET /recommend**: Fetches course recommendations.
+- **POST /predict**: Sends user data and receives predictions.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Project Structure
+bash
+Course-Recommender-App/
+├── app.py              # Main application file
+├── model.pkl           # Pre-trained machine learning model
+├── requirements.txt    # Python dependencies
+├── static/             # Static files (CSS, JS)
+├── templates/          # HTML templates
+├── frontend/           # React frontend
+├── data/               # Dataset for training and testing
+└── README.md           # Project documentation
 
-To learn React, check out the [React documentation](https://reactjs.org/).
 
-### Code Splitting
+## Model
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+### Training
+- The model was trained using a dataset of courses and user interactions.
+- The data was preprocessed and fed into a machine learning algorithm (e.g., RandomForest, SVM).
+- The trained model was serialized into a `.pkl` file for deployment.
 
-### Analyzing the Bundle Size
+### Loading and Predicting
+- The application loads the model from the `.pkl` file and uses it to make real-time predictions based on user input.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## Benchmarking
+### Model Performance
+- **Load Time**: The time it takes to load the model from the `.pkl` file.
+- **Prediction Time**: The time it takes to generate predictions.
 
-### Making a Progressive Web App
+### API Performance
+- **Response Time**: The time taken to receive a response from the API.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+### Frontend Performance
+- **Page Load Time**: Time taken for the application to load in the browser.
+- **Interaction Performance**: Time taken for user actions (e.g., form submissions) to be processed.
 
-### Advanced Configuration
+Tools like Apache Benchmark, Google Lighthouse, and Locust can be used for benchmarking.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
 
-### Deployment
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+---
