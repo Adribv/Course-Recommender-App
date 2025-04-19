@@ -1,60 +1,40 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, NavLink, useNavigate } from 'react-router-dom';
-import { firestore, auth } from './firebase';
-import { doc, getDoc } from 'firebase/firestore';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import { useParams, useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
+import { getCourseDetails } from '../service';
 
 const CourseDetail = () => {
-  const { userId, courseTitle } = useParams();
+  const { courseId } = useParams();
   const [courseDetails, setCourseDetails] = useState(null);
-  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+  const { currentUser } = useAuth();
 
   useEffect(() => {
-    // Fetch user details
-    const fetchUser = () => {
-      const currentUser = auth.currentUser;
-      if (currentUser) {
-        setUser(currentUser);
-      } else {
-        console.log('No user signed in.');
-      }
-    };
+    if (!currentUser) {
+      navigate('/signin', { replace: true });
+      return;
+    }
 
-    fetchUser();
-
-    // Fetch course details
     const fetchCourseDetails = async () => {
       try {
-        const docRef = doc(firestore, 'recommendations', userId);
-        const docSnap = await getDoc(docRef);
-        if (docSnap.exists()) {
-          const courses = docSnap.data().courses;
-          const course = courses.find(c => c['Course Title'] === decodeURIComponent(courseTitle));
-          setCourseDetails(course);
-        } else {
-          console.log('No course details found.');
-        }
+        const data = await getCourseDetails(currentUser.token, courseId);
+        setCourseDetails(data);
       } catch (error) {
         console.error('Error fetching course details:', error.message);
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchCourseDetails();
-  }, [userId, courseTitle]);
+  }, [courseId, currentUser, navigate]);
 
-  const handleLogout = () => {
-    auth.signOut()
-      .then(() => {
-        console.log('User signed out.');
-        navigate('/signin');
-      })
-      .catch((error) => {
-        console.error('Error signing out:', error.message);
-      });
-  };
+  if (!currentUser) {
+    return null; // Will redirect in useEffect
+  }
 
-  if (!courseDetails) {
+  if (loading) {
     return (
       <div className="flex justify-center items-center h-screen bg-gray-800 text-white">
         <p className="text-xl">Loading...</p>
@@ -62,41 +42,16 @@ const CourseDetail = () => {
     );
   }
 
+  if (!courseDetails) {
+    return (
+      <div className="flex justify-center items-center h-screen bg-gray-800 text-white">
+        <p className="text-xl">Course not found</p>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-gray-800 text-white">
-      {/* Header */}
-      <header className="bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500 p-6 rounded-b-lg shadow-lg mb-8">
-        <div className="container mx-auto flex justify-between items-center">
-          <div className="flex items-center space-x-6">
-            <NavLink 
-              to="/dashboard" 
-              className="text-white text-lg font-semibold hover:text-gray-300 transition duration-300"
-            >
-              Dashboard
-            </NavLink>
-            {user && (
-              <NavLink 
-                to={`/recommended-courses/${user.uid}`}
-                className="text-white text-lg font-semibold hover:text-gray-300 transition duration-300"
-              >
-                All Recommended Courses
-              </NavLink>
-            )}
-            <NavLink 
-              to="/profile-setup" 
-              className="text-white text-lg font-semibold hover:text-gray-300 transition duration-300"
-            >
-              My Profile
-            </NavLink>
-          </div>
-          <button
-            onClick={handleLogout}
-            className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition duration-300"
-          >
-            Logout
-          </button>
-        </div>
-      </header>
 
       {/* Course Details */}
       <div className="container mx-auto p-6">
